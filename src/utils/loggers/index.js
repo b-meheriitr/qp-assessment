@@ -5,7 +5,8 @@ import createDefaultLogger, {createConsoleLogger} from './factory.logger'
 
 winston.addColors(winstonLevelColors)
 
-export default createDefaultLogger(LOGGING_CONFIG.LOGGERS)
+const logger = createDefaultLogger(LOGGING_CONFIG.LOGGERS)
+export default logger
 
 export const consoleLogger = createConsoleLogger()
 

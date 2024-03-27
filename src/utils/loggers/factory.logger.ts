@@ -1,10 +1,11 @@
-import {createLogger, format, transports} from 'winston'
+import {createLogger, format, Logger, transports} from 'winston'
+import {CustomLogger, Log, LogType} from '../../types/config.type'
 import {levelNames, SPLAT_SYMBOL, winstonLevels} from './constants.logger'
 import {colorizeMessage, commonLogFormat, exactLogLevelMatch, printLog, unsetConsoleTransportFlag} from './fromats'
 import {getMinLogLevel} from './utils.logger'
 
-const loggerTransports = {
-	file: loggerConfig => {
+const loggerTransports: {[Property in LogType]: any} = {
+	file: (loggerConfig: Log) => {
 		const commonFormat = format.combine(
 			unsetConsoleTransportFlag,
 			commonLogFormat,
@@ -45,17 +46,17 @@ const loggerTransports = {
 	},
 }
 
-function getCombinedTransports(loggerConfigs) {
+function getCombinedTransports(loggerConfigs: Log[]) {
 	return loggerConfigs.map(loggerConfig => loggerTransports[loggerConfig.logger](loggerConfig))
 		.flat()
 }
 
-export default loggerConfigs => {
+export default (loggerConfigs: Log[]) => {
 	const lgr = createLogger({
 		level: getMinLogLevel(),
 		levels: winstonLevels,
 		transports: getCombinedTransports(loggerConfigs),
-	})
+	}) as CustomLogger
 
 	lgr.error = (err, ...others) => {
 		if (err instanceof Error) {
@@ -68,7 +69,7 @@ export default loggerConfigs => {
 	return lgr
 }
 
-export const createConsoleLogger = () => {
+export const createConsoleLogger = (): Logger => {
 	return createLogger({
 		level: getMinLogLevel(),
 		levels: winstonLevels,

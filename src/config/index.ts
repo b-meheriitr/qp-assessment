@@ -1,4 +1,5 @@
 import configLibrary from 'config'
+import {Log, LoggerConfig} from '../types/config.type'
 import {kebabCaseObjectToLowerCamelCaseObj} from '../utils/utils'
 
 const get = configLibrary.get.bind(configLibrary)
@@ -10,10 +11,10 @@ const config = {
 		NAME: get('server.name'),
 	},
 	LOGGING: {
-		OVERRIDE_GLOBAL_CONSOLE_METHODS: get('logging.override-global-console-methods'),
-		LEVEL: get('logging.level'),
-		LOGGERS: get('logging.loggers').map(kebabCaseObjectToLowerCamelCaseObj),
-		SKIP_MORGAN_REQUESTS_LOG: get('logging.skip-morgan-requests-log'),
+		OVERRIDE_GLOBAL_CONSOLE_METHODS: get('logging.override-global-console-methods') as boolean,
+		LEVEL: get('logging.level') as string,
+		LOGGERS: (get('logging.loggers') as Log[]).map(kebabCaseObjectToLowerCamelCaseObj),
+		SKIP_MORGAN_REQUESTS_LOG: get('logging.skip-morgan-requests-log') as boolean,
 	},
 	API: {
 		BASE_PATH: get('api.base-path'),
@@ -23,7 +24,7 @@ const config = {
 export default config
 
 export const SERVER_CONFIG = config.SERVER
-export const LOGGING_CONFIG = config.LOGGING
+export const LOGGING_CONFIG: LoggerConfig = config.LOGGING
 export const API_CONFIG = config.API
 
 /*
