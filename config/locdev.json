@@ -1,0 +1,15 @@
+{
+  "server": {
+    "port": 8011
+  },
+  "logging": {
+    "override-global-console-methods": false,
+    "level": "silly",
+    "loggers": [
+      {
+        "logger": "console"
+      }
+    ],
+    "skip-morgan-requests-log": true
+  }
+}

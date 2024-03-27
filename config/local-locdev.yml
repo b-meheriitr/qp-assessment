@@ -1,0 +1,9 @@
+server:
+  port: 8019
+logging:
+  override-global-console-methods: false
+  level: "silly"
+  loggers:
+    - logger: "console"
+
+  skip-morgan-requests-log: true

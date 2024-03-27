@@ -1,0 +1,20 @@
+{
+  "server": {
+    "port": 8080,
+    "name": "app"
+  },
+  "logging": {
+    "override-global-console-methods": true,
+    "level": "info",
+    "loggers": [
+      {
+        "logger": "file",
+        "root-path": "logs"
+      }
+    ],
+    "skip-morgan-requests-log": false
+  },
+  "api": {
+    "base-path": "/api"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "logging": {
+    "override-global-console-methods": true,
+    "level": "silly",
+    "loggers": [
+      {
+        "logger": "file",
+        "root-path": "logs"
+      }
+    ],
+    "skip-morgan-requests-log": false
+  }
+}

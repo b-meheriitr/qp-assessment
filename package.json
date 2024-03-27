@@ -1,0 +1,85 @@
+{
+  "name": "qp-assessment",
+  "version": "0.0.0",
+  "author": "",
+  "description": "Question Pro Full Stack Assessment",
+  "main": "index.js",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist/build",
+    "clean:bundle": "ts-node scripts/clean-bundle.js",
+    "build": "npm-run-all clean compile",
+    "bundle": "npm-run-all clean:bundle compile:bundle -- --ibd=$npm_config_ibd",
+    "bundle-ibd": "npm run bundle --ibd",
+    "compile": "tsc",
+    "compile:bundle": "ts-node scripts/bundle.js --ibd=$npm_config_ibd",
+    "dev": "nodemon --exec ts-node ./src/bin/www.js",
+    "start": "node --enable-source-maps ./dist/build/bin/www.js",
+    "start:bundle": "node --enable-source-maps ./dist/bundle/app.min.js",
+    "lint": "eslint -c lint/.eslintrc.js \"{src,test}/**/*.{js,ts}\"",
+    "lint:fix": "eslint -c lint/.eslintrc.js \"{src,test}/**/*{.js,ts}\" --fix",
+    "lint-staged": "lint-staged --no-stash",
+    "test": "jest"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "config": "^3.3.9",
+    "debug": "~4.3.4",
+    "dotenv": "^16.0.3",
+    "express": "~4.18.2",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "morgan": "~1.10.0",
+    "npm-run-all": "^4.1.5",
+    "uuid": "^9.0.0",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.4",
+    "@jest/globals": "^29.5.0",
+    "@types/chalk": "^2.2.0",
+    "@types/config": "^3.3.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.2",
+    "@types/moment": "^2.13.0",
+    "@types/morgan": "^1.9.4",
+    "@types/supertest": "^2.0.12",
+    "@types/uuid": "^9.0.1",
+    "@types/winston": "^2.4.4",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "babel-jest": "^29.5.0",
+    "esbuild": "^0.17.15",
+    "eslint": "^8.37.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-import-resolver-typescript": "^3.5.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-no-useless-assign": "^1.0.3",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "jest": "^29.5.0",
+    "lint-staged": "^13.2.0",
+    "lodash.merge": "^4.6.2",
+    "minimist": "^1.2.8",
+    "nodemon": "^3.0.1",
+    "rimraf": "^5.0.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.3"
+  },
+  "engines": {
+    "node": "18.X"
+  },
+  "lint-staged": {
+    "{src,test}/**/*.{js,jsx,ts,css,html}": [
+      "eslint -c lint/.eslintrc.js --fix"
+    ],
+    "*": []
+  },
+  "directories": {
+    "test": "test"
+  }
+}
