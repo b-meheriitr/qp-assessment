@@ -1,4 +1,5 @@
 import express from 'express'
+import swaggerUi from 'swagger-ui-express'
 import {API_CONFIG, isDevEnv} from './config'
 import router from './routes'
 import {dateString} from './utils/date.utils'
@@ -28,6 +29,9 @@ app.use((req, res, next) => {
 app.use(requestResponseMetaInfoLogger())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+
+app.use('/api-docs', express.static('docs'))
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(null, {swaggerOptions: {url: '/api-docs/openapi.yaml'}}))
 
 app.use(API_CONFIG.BASE_PATH, router)
 

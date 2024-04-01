@@ -1,0 +1,313 @@
+openapi: 3.0.0
+info:
+  title: "QuestionPro Grocery Management"
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8019/api
+paths:
+  /admin/grocery:
+    post:
+      tags:
+        - Admin CRUD
+      summary: Create Grocery Item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                  format: float
+                initialQuantity:
+                  type: number
+                  minimum: 0
+              required:
+                - name
+                - price
+              example:
+                name: Grocery 1
+                price: 20.99
+                initialQuantity: 10
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json: { }
+        421:
+          $ref: '#/components/responses/InvaliInput'
+    get:
+      tags:
+        - Admin CRUD
+      summary: Get all in inventory
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroceryItem'
+  /admin/grocery/{id}:
+    put:
+      tags:
+        - Admin CRUD
+      summary: Update Grocery Item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                  format: float
+              required:
+                - name
+                - price
+              example:
+                name: Grocery 1 updated name
+                price: 25.99
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroceryItem"
+        421:
+          $ref: '#/components/responses/InvaliInput'
+
+    delete:
+      tags:
+        - Admin CRUD
+      summary: Delete Grocery Item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                example:
+                  id: 6
+        421:
+          $ref: '#/components/responses/InvaliInput'
+
+  /admin/grocery/quantity/add/{id}:
+    put:
+      tags:
+        - Inventory Management
+      summary: Add quantity to inventory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Quantity"
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AvailableQuantity"
+        421:
+          $ref: "#/components/responses/InvaliInput"
+  /admin/grocery/quantity/deduct/{id}:
+    put:
+      tags:
+        - Inventory Management
+      summary: Add deduct quantity from inventory
+      description: Useful when damaged items have to be removed
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Quantity"
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AvailableQuantity"
+        421:
+          $ref: "#/components/responses/InvaliInput"
+  /admin/grocery/quantity/force-set/{id}:
+    put:
+      tags:
+        - Inventory Management
+      summary: Hard set quantity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Quantity"
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AvailableQuantity"
+        421:
+          $ref: "#/components/responses/InvaliInput"
+
+  /grocery/order:
+    post:
+      tags:
+        - User
+      summary: Create Order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  groceryId:
+                    type: integer
+                  quantity:
+                    type: integer
+                    minimum: 1
+                required:
+                  - groceryId
+                  - quantity
+              example:
+                - groceryId: 12
+                  quantity: 5
+                - groceryId: 9
+                  quantity: 2
+      responses:
+        '200':
+          description: Successful
+          content:
+            text/plain:
+              example: OK
+        421:
+          $ref: '#/components/responses/InvaliInput'
+  /grocery:
+    get:
+      tags:
+        - User
+      summary: Get all groceries
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: The unique identifier for the product
+                      example: 6
+                    name:
+                      type: string
+                      description: The name of the product
+                      example: Test1
+                    price:
+                      type: number
+                      format: float
+                      description: The price of the product
+                      example: 20.99
+                    availableQuantity:
+                      type: integer
+                      description: The available quantity of the product
+                      example: 2
+
+components:
+  responses:
+    InvaliInput:
+      description: Invalid Input (Validation Failed)
+      content:
+        application/json: { }
+  schemas:
+    GroceryItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the product
+          example: 6
+        name:
+          type: string
+          description: The name of the product
+          example: Test1
+        price:
+          type: number
+          format: float
+          description: The price of the product
+          example: 20.99
+        availableQuantity:
+          type: integer
+          description: The available quantity of the product
+          example: 2
+        createdOn:
+          type: string
+          format: date-time
+          description: The date and time when the product was created
+          example: "2024-04-01T16:27:07.000Z"
+        updatedOn:
+          type: string
+          format: date-time
+          description: The date and time when the product was last updated
+          example: "2024-04-01T20:41:33.552Z"
+    Quantity:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          minimum: 1
+      required:
+        - quantity
+    AvailableQuantity:
+      type: object
+      properties:
+        availableQuantity:
+          type: integer
+          minimum: 1
+      required:
+        - quantity
