@@ -36,6 +36,7 @@ export async function deductQuantity(req: Request, res: Response) {
 	} catch (e) {
 		if (e instanceof InsufficientQuantity) {
 			res.status(421).json({message: e.message})
+			return
 		}
 		throw e
 	}
@@ -49,6 +50,7 @@ export async function forceSetQuantity(req: Request, res: Response) {
 	} catch (e) {
 		if (e instanceof InvalidQuantity) {
 			res.status(421).json({message: e.message})
+			return
 		}
 		throw e
 	}
@@ -68,6 +70,7 @@ export async function createOrder(req: Request, res: Response) {
 	} catch (e) {
 		if (e instanceof InsufficientQuantity) {
 			res.status(421).json({message: e.message})
+			return
 		}
 		throw e
 	}

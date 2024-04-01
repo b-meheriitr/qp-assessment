@@ -43,7 +43,7 @@ export async function deductQuantity(id: number, quantity: number, repo?: Grocer
 		return updated
 	}
 
-	return (<unknown>repo as GroceryRepo).transactional(async (tx: GroceryRepo) => {
+	return groceryRepo.transactional(async (tx: GroceryRepo) => {
 		return deductQuantity(id, quantity, tx)
 	})
 }
