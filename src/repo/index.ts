@@ -1,5 +1,6 @@
 import {PrismaClient} from '@prisma/client'
 import {DB_CONFIG} from '../config'
+import GroceryRepo from './grocery.repo'
 
 const prismaClient = new PrismaClient({
 	datasources: {
@@ -8,3 +9,5 @@ const prismaClient = new PrismaClient({
 		},
 	},
 })
+
+export const groceryRepo = GroceryRepo(prismaClient)

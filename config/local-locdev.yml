@@ -6,4 +6,4 @@ logging:
   loggers:
     - logger: "console"
 
-  skip-morgan-requests-log: true
+  skip-morgan-requests-log: false

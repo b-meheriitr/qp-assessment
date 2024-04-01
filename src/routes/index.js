@@ -1,8 +1,10 @@
 import {Router} from 'express'
-import test from './test.route'
+import groceryAdminRoute from './groceryAdmin.route'
+import groceryUserRoute from './groceryUser.route'
 
 const router = Router()
 
-router.use('/test', test)
+router.use('/admin/grocery', groceryAdminRoute)
+router.use('/grocery', groceryUserRoute)
 
 export default router
