@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model GroceryItem {
+  id                Int      @id @default(autoincrement())
+  name              String   @db.VarChar(256)
+  price             Float    @db.Float
+  availableQuantity Int      @default(0) @map("available_quantity")
+  createdOn         DateTime @default(now()) @map("created_on") @db.DateTime(0)
+  updatedOn         DateTime @updatedAt @map("updated_on")
+}

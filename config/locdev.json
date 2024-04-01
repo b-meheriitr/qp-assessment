@@ -11,5 +11,8 @@
       }
     ],
     "skip-morgan-requests-log": true
+  },
+  "db": {
+    "url": "mysql://root:Root%23123%40%40@10.166.168.11:3366/qpa"
   }
 }

@@ -1,5 +1,5 @@
 import configLibrary from 'config'
-import {Log, LoggerConfig} from '../types/config.type'
+import {DB, Log, LoggerConfig} from '../types/config.type'
 import {kebabCaseObjectToLowerCamelCaseObj} from '../utils/utils'
 
 const get = configLibrary.get.bind(configLibrary)
@@ -19,6 +19,9 @@ const config = {
 	API: {
 		BASE_PATH: get('api.base-path'),
 	},
+	DB: {
+		URL: get<string>('db.url'),
+	},
 }
 
 export default config
@@ -26,6 +29,7 @@ export default config
 export const SERVER_CONFIG = config.SERVER
 export const LOGGING_CONFIG: LoggerConfig = config.LOGGING
 export const API_CONFIG = config.API
+export const DB_CONFIG: DB = config.DB
 
 /*
 	Can't use localDevEnv NODE_ENV name as 'local' or 'local-development' while devEnv NODE_ENV name as 'development'

@@ -19,3 +19,7 @@ export type LoggerConfig = {
 export interface CustomLogger extends Logger {
 	error: (a0: Error | string, ...a2: any) => void
 }
+
+export type DB = {
+	URL: string
+}
